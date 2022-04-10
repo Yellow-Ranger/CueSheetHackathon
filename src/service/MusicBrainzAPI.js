@@ -4,16 +4,14 @@ export async function fetchMetaData(iswc) {
   const headers = {
     Accept: "application/json",
   };
-  console.log("In api call. ISWC is: ", iswc);
-  const initialResponse = await fetch(assembleQueryURL(iswc), { headers });
-  const response = await initialResponse.json;
+  const response = await fetch(assembleQueryURL(iswc), { headers });
   if (response.status === 404) {
     throw new Error(response.statusText);
   }
   if (response.status !== 200) {
     return Promise.reject("Could not fetch metadata");
   }
-  return await response.json();
+  return response;
 }
 
 function assembleQueryURL(iswc) {
