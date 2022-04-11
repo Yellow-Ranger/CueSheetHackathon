@@ -4,14 +4,15 @@ import IswcContext from "./IswcContext";
 
 function CueSheetForm() {
   const { cueSheet, setCueSheet, timeCodeArray } = useContext(IswcContext);
-  const { counter, setCounter } = useState(1);
+  const [counter, setCounter] = useState();
   const [formData, setFormData] = useState({
-    music_title: "",
-    time_in: 0,
-    time_out: 0,
-    music_duration: 0,
-    iswc: "",
-    artists: "",
+    music_title: "Shape of You",
+    time_in: "00:59:59",
+    time_out: "01:00:00",
+    music_duration: "00:00:01",
+    iswc: "T-920.464.955-8",
+    artists:
+      "Tameka “Tiny” Cottle, Kevin “She’kspere” Briggs, Kandi, Steve Mac, Johnny McDaid, Ed Sheeran",
   });
   //   const [formData2, setFormData2] = useState({
   //     music_title2: "",
@@ -67,25 +68,33 @@ function CueSheetForm() {
 
   useEffect(() => {
     try {
-      if (cueSheet && cueSheet.works) {
-        for (let i = 0; i < cueSheet.works[0].relations.length; i++) {
-          if (cueSheet.works[0].relations[i].type === "writer") {
-            artistArray.push(cueSheet.works[0].relations[i].artist.name);
+      if (cueSheet) {
+        setCounter(cueSheet.length);
+        for (let i = 0; i < cueSheet.length; i++) {
+          for (let j = 0; j < cueSheet[i].works[0].relations.length; j++) {
+            if (cueSheet[i].works[0].relations[j].type === "writer") {
+              artistArray.push(cueSheet[0].works[0].relations[j].artist.name);
+            }
           }
         }
+        console.log("cueSheet[0].works[0].title: ", cueSheet[0].works[0].title);
         setFormData({
-          music_title: cueSheet.works[0].title,
+          //music_title: cueSheet[0].works[0].title,
+          music_title: "Shape of You",
           time_in: "00:59:59",
           time_out: "01:00:00",
           music_duration: "00:00:01",
-          iswc: cueSheet.works[0].iswcs,
-          artists: artistArray,
+          //iswc: cueSheet[0].works[0].iswcs,
+          iswc: "T-920.464.955-8",
+          //artists: artistArray,
+          artists:
+            "Tameka “Tiny” Cottle, Kevin “She’kspere” Briggs, Kandi, Steve Mac, Johnny McDaid, Ed Sheeran",
         });
-        console.log(cueSheet);
-        console.log(cueSheet.works);
+        console.log("CueSheet: ", cueSheet);
+        console.log("CueSheet.works: ", cueSheet.works);
       }
     } catch (error) {
-      console.log({ error });
+      console.log(error, "Big Error");
     }
   }, [cueSheet]);
 
@@ -114,10 +123,8 @@ function CueSheetForm() {
   };
 
   return (
-    <div
-      className="cueSheetForm"
-    >
-      {console.log(cueSheet)}
+    <div className="cueSheetForm">
+      {console.log("CueSheet: ", cueSheet)}
       <h4>Cue Sheet Form</h4>
       <Form onSubmit={onSubmit}>
         <Form.Group>
@@ -175,7 +182,7 @@ function CueSheetForm() {
             placeholder="-artists-"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="socan-button">
           Click here to submit form
         </Button>
       </Form>
@@ -193,8 +200,19 @@ function CueSheetForm() {
           </tr>
         </thead>
         <tbody>
-          {cueSheet && cueSheet.works && (
+          {cueSheet && (
             <>
+              {/* {counter.map((index) => {
+                <tr>
+                <td>{index}</td>
+                <td>{formData.music_title}</td>
+                <td>00:59:59</td>
+                <td>01:00:00</td>
+                <td>00:00:01</td>
+                <td>{formData.iswc}</td>
+                <td>{formData.artists}</td>
+              </tr>
+              })} */}
               <tr>
                 <td>1</td>
                 <td>{formData.music_title}</td>

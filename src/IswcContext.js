@@ -4,11 +4,17 @@ import { fetchMetaData } from "./service/MusicBrainzAPI";
 const IswcContext = createContext();
 
 export const IswcProvider = ({ children }) => {
-  const [cueSheet, setCueSheet] = useState();
+  const [cueSheet, setCueSheet] = useState([]);
+  const [loading, setLoading] = useState(false);
   const timeCodeArray = [];
+  const finalResponse = [];
+  const [counter, setCounter] = useState(0);
 
   //fetch iswc
   const fetchISWC = async (iswcArray) => {
+    setCounter(iswcArray.length);
+    console.log("iswcArray.length: ", iswcArray.length);
+    console.log("Counter length: ", counter);
     for (let i = 0; i < iswcArray.length; i++) {
       console.log("iswcArray: ", iswcArray);
       console.log("iswc is: ", iswcArray[i][0]);
@@ -18,11 +24,11 @@ export const IswcProvider = ({ children }) => {
 
       try {
         const response = await fetchMetaData(iswcArray[i][0]);
-        var finalResponse = await response.json();
-      } catch (e) {
-        console.log(e);
-      } finally {
+        finalResponse.push(response.json());
+        console.log("Final Response: ", finalResponse);
         setCueSheet(finalResponse);
+      } catch (e) {
+        console.log(e, " Big Error");
       }
     }
   };
@@ -31,6 +37,15 @@ export const IswcProvider = ({ children }) => {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
 
+  useEffect(() => {
+    console.log("cueSheet length: ", cueSheet.length);
+    console.log("Counter: ", counter);
+    if (cueSheet.length === 1) {
+      setLoading(false);
+      console.log("Set Loading to false");
+    }
+  }, [cueSheet, counter]);
+
   return (
     <IswcContext.Provider
       value={{
@@ -38,6 +53,8 @@ export const IswcProvider = ({ children }) => {
         setCueSheet,
         fetchISWC,
         timeCodeArray,
+        loading,
+        setLoading,
       }}
     >
       {children}
