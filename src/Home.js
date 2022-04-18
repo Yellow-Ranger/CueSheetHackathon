@@ -9,7 +9,7 @@ import IswcContext from "./IswcContext";
 function Home() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ edlFile: {} });
-  const { fetchISWC, timeCodeArray } = useContext(IswcContext);
+  const { fetchISWC, timeCodeArray, data, dispatch } = useContext(IswcContext);
   const navigate = useNavigate();
   const { edlFile } = formData;
   const iswcArray = [];
@@ -23,13 +23,13 @@ function Home() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const preview = document.getElementById("show-text");
     const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const file = e.target.result;
       const regexSplit = /\r\n|\n/;
       const regexMatch = /(?<=@)[T|t].\S+/gm;
@@ -44,10 +44,9 @@ function Home() {
           //   timeCodeArray.push(line.match(regexTimeMatch));
         }
       }
-      setLoading(true);
-
-      fetchISWC(iswcArray);
-      setLoading(false);
+      dispatch({ type: "SET_LOADING" });
+      const data = await fetchISWC(iswcArray);
+      dispatch({ type: "GET_FORM_DATA", payload: data });
       navigate("/cue-sheet");
     };
 

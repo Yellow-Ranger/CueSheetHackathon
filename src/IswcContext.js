@@ -1,11 +1,16 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useReducer } from "react";
 import { fetchMetaData } from "./service/MusicBrainzAPI";
+import formReducer from "./FormReducer";
 
 const IswcContext = createContext();
 
 export const IswcProvider = ({ children }) => {
   const [cueSheet, setCueSheet] = useState();
   const timeCodeArray = [];
+  const initialState = {
+    loading: false,
+    data: []
+  };
 
   //fetch iswc
   const fetchISWC = async (iswcArray) => {
@@ -31,6 +36,8 @@ export const IswcProvider = ({ children }) => {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
 
+  const [state, dispatch] = useReducer(formReducer, initialState);
+
   return (
     <IswcContext.Provider
       value={{
@@ -38,6 +45,8 @@ export const IswcProvider = ({ children }) => {
         setCueSheet,
         fetchISWC,
         timeCodeArray,
+        state,
+        dispatch,
       }}
     >
       {children}

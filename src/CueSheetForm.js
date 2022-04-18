@@ -1,9 +1,18 @@
 import { Button, Form, Table } from "react-bootstrap";
 import { useState, useContext, useEffect } from "react";
 import IswcContext from "./IswcContext";
+import Spinner from "./Spinner";
 
 function CueSheetForm() {
-  const { cueSheet, setCueSheet, timeCodeArray } = useContext(IswcContext);
+  const {
+    fetchISWC,
+    cueSheet,
+    setCueSheet,
+    timeCodeArray,
+    dispatch,
+    loading,
+    data,
+  } = useContext(IswcContext);
   const { counter, setCounter } = useState(1);
   const [formData, setFormData] = useState({
     music_title: "",
@@ -66,6 +75,8 @@ function CueSheetForm() {
   };
 
   useEffect(() => {
+    dispatch({ type: "SET_LOADING" });
+
     try {
       if (cueSheet && cueSheet.works) {
         for (let i = 0; i < cueSheet.works[0].relations.length; i++) {
@@ -113,10 +124,12 @@ function CueSheetForm() {
     alert("Sending form to Socan!");
   };
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <div
-      className="cueSheetForm"
-    >
+    <div className="cueSheetForm">
       {console.log(cueSheet)}
       <h4>Cue Sheet Form</h4>
       <Form onSubmit={onSubmit}>
@@ -175,7 +188,7 @@ function CueSheetForm() {
             placeholder="-artists-"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="submitFormButton">
           Click here to submit form
         </Button>
       </Form>
