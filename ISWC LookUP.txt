@@ -1,0 +1,13 @@
+T R A C K  L I S T I N G
+TRACK NAME:	ST A (Stereo)
+COMMENTS:	
+USER DELAY:	0 Samples
+STATE: Muted 
+CHANNEL 	EVENT   	CLIP NAME                     	START TIME    	END TIME      	DURATION      	STATE
+1       	1       	EQUUS Nova@T-917.699.970-5  1m01 Thoroughbreds 00:59;59:20-01.L	   00:59:59:20	   01:00:00;00	   00:00:01;10	Muted
+1       	2       	EQUUS Nova@T-929.043.710-4	9290437104 1m01 Thoroughbreds 00:59;59:20-03.L	   01:00:00;00	   01:02:04;05	   00:02:04;05	Muted
+1       	3       	EQUUS Nova@T-920.464.955-8 1m01 Thoroughbreds 00:59;59:20-04.L	   01:02:02;05	   01:02:05;10	   00:00:03;05	Muted
+1       	4       	EQUUS Nova@1213 1m02 A Symbolic and Spiritual Relationship 01:02;53:13-01.L	   01:02:53;13	   01:02:54;00	   00:00:01;17	Muted
+1       	5       	EQUUS Nova@141516 1m02 A Symbolic and Spiritual Relationship 01:02;53:13-03.L	   01:02:54;00	   01:04:49;28	   00:01:55;26	Muted
+1       	6       	EQUUS Nova@1718 1m02 A Symbolic and Spiritual Relationship 01:02;53:13-04.L	   01:04:49;28	   01:04:51;22	   00:00:02;24	Muted
+1       	7       	EQUUS Nova@1920 1m03 Fox or Horse 01:04;57:21-01.L	   01:04:57;21	   01:04:58;13	   00:00:01;22	Muted
