@@ -31,12 +31,11 @@
   display: block;
   justify-content: center;
   align-items: center;
-  width: 700; 
+  width: 700;
   margin-right: 20%;
   margin-left: 20%;
 }
 
-.submitFormButton {
+.socan-button {
   margin-top: 1em;
 }
-

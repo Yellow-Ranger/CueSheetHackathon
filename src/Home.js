@@ -1,13 +1,10 @@
-import { useContext, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { useContext, useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import Button from "@mui/material/Button";
 import { fetchMetaData } from "./service/MusicBrainzAPI";
 import { useNavigate } from "react-router-dom";
 import IswcContext from "./IswcContext";
 
 function Home() {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ edlFile: {} });
   const { fetchISWC, timeCodeArray, data, dispatch } = useContext(IswcContext);
   const navigate = useNavigate();
@@ -25,7 +22,7 @@ function Home() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const preview = document.getElementById("show-text");
+    setLoading(true);
     const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
 
@@ -49,10 +46,21 @@ function Home() {
       dispatch({ type: "GET_FORM_DATA", payload: data });
       navigate("/cue-sheet");
     };
-
+    //setLoading(true);
     reader.readAsText(file);
-    //toast.success("Successfully Converted!");
   };
+
+  useEffect(() => {
+    if (cueSheet.length > 0) {
+      if (cueSheet.length === 1) {
+        navigate("/cue-sheet");
+      }
+    }
+  }, [cueSheet]);
+
+  // useEffect(() => {
+  //   setLoading(loading);
+  // }, [loading]);
 
   return (
     <div className="homePage">
